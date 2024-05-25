@@ -25,16 +25,7 @@ def security_headers():
     f = 'False'
     headers_list = ['X-Content-Type-Options','X-Frame-Options', 'X-XSS-Protection','Content-Security-Policy']
     try:
-        url = input('Enter domain (e.g., example.com) >> ')
-        response = requests.get(f'https://{url}')
-        headers_response = response.headers
-        while True:
-            if headers_list[0:4] in headers_response:
-                print('[+] Security headers found.')
-                break
-            else:
-                print('[-] Some security headers are missing.')
-                break
+        print("[-] Dev")
         
     except requests.exceptions.RequestException as e:
         print('[-] Some security headers are missing.')
