@@ -22,10 +22,11 @@ def main():
 
 def security_headers():
     try:
-        headers_list = ['X-Frame-Options','X-Content-Type-Options','X-Content-Security-Policy','X-XSS-Protection','Content-Security-Policy']
-        url = input('URL>> ')
+        headers_list = ['X-Frame-Options','X-Content-Type-Options','X-Content-Security-Policy','X-XSS-Protection','Content-Security-Policy','Strict-Transport-Security']
+        url = input('[*] URL: ')
         response = requests.get(url)
         headers_response = response.headers
+        print('____________SECURITY HEADERS____________\n')
         for headers in headers_response:
             if headers_list[0] in headers:
                 print(f'{headers_list[0]}: True.')
@@ -37,8 +38,13 @@ def security_headers():
                 print(f'{headers_list[3]}: True.')
             if headers_list[4] in headers:
                 print(f'{headers_list[4]}: True.')
-            print("[*] Finish scan.")
+            if headers_list[5] in headers:
+                print(f'{headers_list[5]}: True.')
+        print('________________________________________')
+        print("[*] Finish scan.")
+        print('____________INFORMATION____________\n')
         
+        print('__________________________________\n')
     except requests.exceptions.RequestException as e:
         print('[-] Some security headers are missing.')
 
