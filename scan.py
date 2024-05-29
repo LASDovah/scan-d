@@ -1,4 +1,5 @@
 import requests
+import time
 
 def menu():
     print(r'''
@@ -8,7 +9,7 @@ def menu():
  (__  ) / /__  / /_/ /  / / / //_____// /_/ /
 /____/  \___/  \__,_/  /_/ /_/        \__,_/
             
-            [*] Version >> 0.2
+            [*] Version >> 0.3
             [*] Date >> 24-05-2024
             [*] Github >> LASDovah
             [*] Tool to know the status of headers and find existing subdomains.
@@ -16,9 +17,8 @@ def menu():
     ________MENU_________
 
     [1] Security Header.
-    [2] Full Header Scan with .txt file.
-    [3] Find Subdomain.      
-    [4] Exit.
+    [2] Find Subdomain.      
+    [3] Exit.
     _____________________
     ''')
 
@@ -30,10 +30,9 @@ def main():
             if option == 1:
                 security_headers()
             elif option == 2:
-                full_header_scan()   
-            elif option == 3:
-                print('Find Subdomain.')
-            elif option == 3:
+                subdomains()
+                break
+            elif option == 4:
                 print('Exit.')
                 break
             else:
@@ -88,11 +87,81 @@ def security_headers():
         except requests.exceptions.RequestException as e:
             print(f'[-] RequestException: {e}')
 
-def full_header_scan():
-    #add file to scan
-    #path_file = input('[+] Path File:')
-    #with open(path_file,'r') as file:
-    print('DEV-----')   
-
+def subdomains():
+    print('\n[*] Enter a option.')
+    print('[*] The level defines the aggressiveness of the search.\n')
+    level_scan=int(input('[*] Scan type > (Select level [1/2/3]): '))
+    domain = input('[*] Enter Domain: ')#Enter domain....
+    print(f'\n[+] You selected the level >> {level_scan}...')
+    print('[+] Searching...\n')
+    time.sleep(5)
+    try:
+        if level_scan == 1 and not (domain.startswith('https://') or domain.startswith('http://')):
+            with open('subdomains.txt','r') as file:
+                for line in file:
+                    subdomain = line.strip()
+                    full_url = f"http://{subdomain}.{domain}"
+                    try:
+                        response = requests.get(full_url)
+                        if response.status_code in [200, 202, 304, 400, 403, 404, 500, 502]:
+                            result = f'{subdomain}.{domain} | [{response.status_code}]'
+                            result2 = f'{subdomain}.{domain}'
+                            print(result)
+                            with open(f'subdomains_code_{domain}.txt', 'a') as output_file:
+                                output_file.write(result+'\n')
+                            with open(f'subdomain_{domain}.txt', 'a') as output_file:
+                                output_file.write(result2+'\n')
+                    except requests.RequestException as e:
+                        pass
+                print('[+] FINISH.')
+                print(f"\n[+] Subdomains and status code, exported to 'subdomains_code_{domain}.txt'.")
+                print(f"[+] Subdomains exported to 'subdomains_{domain}.txt'.")
+        
+        elif level_scan == 2 and not (domain.startswith('https://') or domain.startswith('http://')):
+            with open('subdomains-v2.txt','r') as file:
+                for line in file:
+                    subdomain = line.strip()
+                    full_url = f"http://{subdomain}.{domain}"
+                    try:
+                        response = requests.get(full_url)
+                        if response.status_code in [200, 202, 304, 400, 403, 404, 500, 502]:
+                            result = f'{subdomain}.{domain} | [{response.status_code}]'
+                            result2 = f'{subdomain}.{domain}'
+                            print(result)
+                            with open(f'subdomains_code_{domain}.txt', 'a') as output_file:
+                                output_file.write(result+'\n')
+                            with open(f'subdomain_{domain}.txt', 'a') as output_file:
+                                output_file.write(result2+'\n')    
+                    except requests.RequestException as e:
+                        pass
+                print('[+] FINISH.')
+                print(f"\n[+] Subdomains and status code, exported to 'subdomains_code_{domain}.txt'.")
+                print(f"[+] Subdomains exported to 'subdomains_{domain}.txt'.")
+        elif level_scan == 3 and not (domain.startswith('https://') or domain.startswith('http://')):
+            with open('subdomains-v3.txt','r') as file:
+                for line in file:
+                    subdomain = line.strip()
+                    full_url = f"http://{subdomain}.{domain}"
+                    try:
+                        response = requests.get(full_url)
+                        if response.status_code in [200, 202, 304, 400, 403, 404, 500, 502]:
+                            result = f'{subdomain}.{domain} | [{response.status_code}]'
+                            result2 = f'{subdomain}.{domain}'
+                            print(result)
+                            with open(f'subdomains_code_{domain}.txt', 'a') as output_file:
+                                output_file.write(result+'\n')
+                            with open(f'subdomain_{domain}.txt', 'a') as output_file:
+                                output_file.write(result2+'\n')    
+                    except requests.RequestException as e:
+                        pass
+                print('[+] FINISH.')
+                print(f"\n[+] Subdomains and status code, exported to 'subdomains_code_{domain}.txt'.")
+                print(f"[+] Subdomains exported to 'subdomains_{domain}.txt'.")                
+        else:
+            print("[-] Sorry. Could not find subdomains.")
+    except Exception as e:
+        print(f"Error: {e}")
+    except KeyboardInterrupt as k:
+        print(k)
 if __name__ == '__main__':
     main()
