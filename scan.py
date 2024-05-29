@@ -30,6 +30,8 @@ def main():
             if option == 1:
                 security_headers()
             elif option == 2:
+                full_header_scan()   
+            elif option == 3:
                 print('Find Subdomain.')
             elif option == 3:
                 print('Exit.')
@@ -85,6 +87,12 @@ def security_headers():
             print("[-] Connection error: Could not connect with the provided URL.")
         except requests.exceptions.RequestException as e:
             print(f'[-] RequestException: {e}')
+
+def full_header_scan():
+    #add file to scan
+    #path_file = input('[+] Path File:')
+    #with open(path_file,'r') as file:
+    print('DEV-----')   
 
 if __name__ == '__main__':
     main()
