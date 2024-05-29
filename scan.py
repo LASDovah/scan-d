@@ -16,8 +16,9 @@ def menu():
     ________MENU_________
 
     [1] Security Header.
-    [2] Find Subdomain.
-    [3] Exit.
+    [2] Full Header Scan with .txt file.
+    [3] Find Subdomain.      
+    [4] Exit.
     _____________________
     ''')
 
@@ -42,6 +43,7 @@ def main():
     except KeyboardInterrupt:
         print("\n[-] Interrupted by user.")
 
+
 def security_headers():
     headers_list = ['X-Frame-Options',
                     'X-Content-Type-Options',
@@ -53,13 +55,19 @@ def security_headers():
     while opt:
         try:
             url = input('[*] URL: ')
+            print('')
             response = requests.get(url)
             headers_response = response.headers
-            print('____________SECURITY HEADERS____________\n')
+            result = '____________SECURITY HEADERS____________\n'
+            result += f'URL: {url}\n\n'
             for headers in headers_response:
                 if headers in headers_list:
-                    print(f'{headers}')
-            print('________________________________________\n')
+                    result += f'{headers}\n'
+            result += '________________________________________\n'
+            print(result)
+            with open('header.txt', 'a') as file:
+                file.write(result)
+            print("[+] Headers exported to 'header.txt'.")                
             while True:
                 another_url = input('[*] Do you want to enter another URL? [Y/n]: ').lower()
                 if another_url == 'y':
