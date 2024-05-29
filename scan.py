@@ -26,16 +26,24 @@ def security_headers():
         url = input('URL>> ')
         response = requests.get(url)
         headers_response = response.headers
-        #print(headers_response)
-        if 'X-Content-Security-Policy' in headers_response or 'X-Frame-Options' in headers_response:
-            #print(f"X-Content-Security-Policy: {headers_response['X-Content-Security-Policy']}")
-            print(f"X-Frame-Options: {headers_response['X-Frame-Options']}")
-        else:
-            print(f'No hay ninguna cabecera')
+        for headers in headers_response:
+            if headers_list[0] in headers:
+                print(f'{headers_list[0]}: True.')
+            if headers_list[1] in headers:
+                print(f'{headers_list[1]}: True.')
+            if headers_list[2] in headers:
+                print(f'{headers_list[2]}: True.')
+            if headers_list[3] in headers:
+                print(f'{headers_list[3]}: True.')
+            if headers_list[4] in headers:
+                print(f'{headers_list[4]}: True.')
+            print("[*] Finish scan.")
+        
     except requests.exceptions.RequestException as e:
         print('[-] Some security headers are missing.')
 
 if __name__ == '__main__':
+
     print(r'''
                                              __
    _____  _____  ____ _   ____          ____/ /
